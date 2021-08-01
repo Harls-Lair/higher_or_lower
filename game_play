@@ -1,0 +1,74 @@
+from art import logo
+from art import vs
+import random
+from game_data import data
+
+
+#display choice_a with only name description and country
+def display_a():
+    a_name = choice_a.get('name')
+    a_description = choice_a.get('description')
+    a_country = choice_a.get('country')
+    print(f'A: {a_name}, {a_description}, {a_country}')
+
+def display_b():
+    b_name = choice_b.get('name')
+    b_description = choice_b.get('description')
+    b_country = choice_b.get('country')
+    print(f'B: {b_name}, {b_description}, {b_country}')
+
+new_data = data.copy()
+choice_a = random.choice(new_data)
+
+#start of the game
+game_on = True
+points = 0
+while game_on:
+    print(logo)
+    print("Who has more followers?")
+
+    choice_b = random.choice(new_data)
+    #just in case we're comparing the same person.
+    while choice_b == choice_a:
+        choice_b = random.choice(new_data)
+        print(choice_b)
+
+
+    print(choice_a)
+    print(choice_b)
+
+    #user display to choose
+    display_a()
+    print(vs)
+    display_b()
+    p1_answer = input("Type 'a' or 'b': ").lower()
+
+    a_followers = choice_a.get('follower_count')
+    b_followers = choice_b.get('follower_count')
+    #define winner and reassign choice_a to the winner, tally up points.
+    #bug here!!! it sets to 0
+
+    print(a_followers)
+    print(b_followers)
+    if p1_answer == 'a':
+        p1_answer = a_followers
+        if p1_answer > b_followers:
+            points += 1
+            print(f"Correct! Point(s): {points}")
+
+        else:
+            print(f"Wrong! Point(s): {points}")
+            break
+    elif p1_answer == 'b':
+        p1_answer = b_followers
+        if p1_answer > a_followers:
+            points += 1
+            print(f"Correct! Point(s): {points}")
+            #reassign choice_b to choice_a
+            choice_a = choice_b
+            choice_b = random.choice(new_data)
+        else:
+            print(f"Wrong! Points: {points}")
+            break
+
+#use the pop method to go through the dictionary, so the matchups won't be repetitive
